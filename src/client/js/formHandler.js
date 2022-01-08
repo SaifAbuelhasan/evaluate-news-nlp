@@ -52,12 +52,17 @@ function handleSubmit(event) {
         
     // check what text was put into the form field
     let formText = document.getElementById('name').value
-    Client.checkForName(formText)
     
+    if(formText.trim() === '') {
+        alert('Input can\'t be empty')
+        return;
+    } 
 
     console.log("::: Form Submitted :::")
 
     handleAsync(formText);
+
+    document.getElementById('name').value = '';
 }
 
 export { handleSubmit }
