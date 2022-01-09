@@ -17,8 +17,9 @@ const getKey = async () => {
 }
 
 // Make meaning cloud API call
-const getSentiment = async (key, text) => {
-    const url = `https://api.meaningcloud.com/sentiment-2.1?key=${key}&lang=en&model=general&txt=${text}`;
+const getSentiment = async (key, url) => {
+    url += `&key=${key}`;
+    console.log(url)
     try {
         const resp = await axios.get(url);
         if(resp.status === 200) {
@@ -41,26 +42,34 @@ const formResult = ({ agreement, confidence, irony }) => {
 }
 
 // An async function containing all async activity. Getting key and making API call.
-const handleAsync = async (text) => {
+const handleAsync = async (url) => {
     const key = await getKey();
-    const resp = await getSentiment(key, text);
+    const resp = await getSentiment(key, url);
     formResult(resp);
 }
 
 function handleSubmit(event) {
     event.preventDefault();
-        
+    
     // check what text was put into the form field
     let formText = document.getElementById('name').value
-    
+    const url = `https://api.meaningcloud.com/sentiment-2.1?lang=en&model=general&txt=${formText}`;
+
+    const valid = Client.validate(url);
+
+    if(!valid) {
+        alert('Invalid url');
+        return;
+    }
+
     if(formText.trim() === '') {
         alert('Input can\'t be empty')
         return;
-    } 
+    }
 
     console.log("::: Form Submitted :::")
 
-    handleAsync(formText);
+    handleAsync(url);
 
     document.getElementById('name').value = '';
 }

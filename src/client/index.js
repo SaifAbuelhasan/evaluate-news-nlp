@@ -1,4 +1,5 @@
 import { handleSubmit } from './js/formHandler'
+import { validate } from './js/validateURL'
 
 
 // Importing the scss files breaks the code for some reason
@@ -11,5 +12,6 @@ import { handleSubmit } from './js/formHandler'
 
 
 export {
-    handleSubmit
+    handleSubmit,
+    validate
 }
